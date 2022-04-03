@@ -35,6 +35,12 @@ TextureImporter:
   - first:
       213: 4534472361591423259
     second: PetSprites_01_10
+  - first:
+      213: -8357207502156430256
+    second: PetSprites_01_11
+  - first:
+      213: 2949447583903438885
+    second: PetSprites_01_12
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -350,6 +356,48 @@ TextureImporter:
       bones: []
       spriteID: b11cb74969eadee30800000000000000
       internalID: 4534472361591423259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PetSprites_01_11
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0548cbf1e0c350c80800000000000000
+      internalID: -8357207502156430256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PetSprites_01_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 528d23263fa8ee820800000000000000
+      internalID: 2949447583903438885
       vertices: []
       indices: 
       edges: []

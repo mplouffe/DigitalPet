@@ -9,6 +9,7 @@ namespace lvl0
     {
         public bool evolve;
         public int feedingAmount;
+        public float healthInvestment;
     }
 
     public enum DigitalPetEpoch
@@ -251,6 +252,7 @@ namespace lvl0
             }
 
             m_fullness += e.feedingAmount;
+            m_lifeExpectancy += e.healthInvestment;
         }
 
         public void OnEvent(ContextChangedEvent e)

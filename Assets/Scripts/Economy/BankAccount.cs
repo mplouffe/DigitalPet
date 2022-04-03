@@ -9,6 +9,8 @@ namespace lvl0
     {
         Deposit,
         FeedRequest,
+        PointsRequest,
+        PetHealthRequest
     }
 
     public struct BankAccountEvent : IEvent
@@ -64,6 +66,28 @@ namespace lvl0
                         {
                             approved = false,
                             feedAmount = 0
+                        });
+                    }
+                    break;
+                case TransactionType.PointsRequest:
+                    if (m_accountBalance - e.transactionAmount >= 0)
+                    {
+                        m_accountBalance -= e.transactionAmount;
+                        m_bankAmount.SetText(m_accountBalance.ToString(fmt));
+                        EventBus<PointsEvent>.Raise(new PointsEvent()
+                        {
+                            pointsGained = e.transactionAmount * 2
+                        });
+                    }
+                    break;
+                case TransactionType.PetHealthRequest:
+                    if (m_accountBalance - e.transactionAmount >= 0)
+                    {
+                        m_accountBalance -= e.transactionAmount;
+                        m_bankAmount.SetText(m_accountBalance.ToString(fmt));
+                        EventBus<DigitalPetEvent>.Raise(new DigitalPetEvent()
+                        {
+                            healthInvestment = e.transactionAmount / 2
                         });
                     }
                     break;

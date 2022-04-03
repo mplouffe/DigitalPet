@@ -13,8 +13,7 @@ namespace lvl0
 
     public struct JobEvent : IEvent
     {
-        public bool workingStateChange;
-        public WorkingState workingState;
+        public bool payEvent;
         public bool promotion;
         public int newSalary;
     }
@@ -36,15 +35,15 @@ namespace lvl0
         [SerializeField]
         private TextMeshProUGUI m_salaryInfo;
 
-        private bool m_isWorking = true;
-        private int m_salary = 60;
-        private float m_salaryPerSecond = 1;
+        [SerializeField]
+        private CanvasGroup m_workButtonCanvasGroup;
 
+        private float m_salary = 0.25f;
         private float m_moneyEarned = 0;
         private float m_timeSinceLastPayDay = 0;
 
-        private const int k_payInterval = 40;
-        private const string fmt = "00000";
+        private const int k_payInterval = 20;
+        private const string fmt = "000.00";
 
         void Start()
         {
@@ -58,20 +57,13 @@ namespace lvl0
 
         void Awake()
         {
-            m_isWorking = true;
             m_earningLabel.color = Color.green;
-            m_salaryInfo.SetText($"${m_salary}/min");
+            m_salaryInfo.SetText($"${m_salary}/click");
         }
 
         // Update is called once per frame
         void FixedUpdate()
         {
-            if (m_isWorking)
-            {
-                m_moneyEarned += (m_salaryPerSecond * Time.deltaTime);
-                m_earningCounter.SetText(((int)m_moneyEarned).ToString(fmt));
-            }
-
             m_timeSinceLastPayDay += Time.deltaTime;
 
             if (m_timeSinceLastPayDay > k_payInterval)
@@ -89,26 +81,20 @@ namespace lvl0
 
         public void OnEvent(JobEvent e)
         {
-            if (e.workingStateChange)
+            if (e.payEvent)
             {
-                switch (e.workingState)
-                {
-                    case WorkingState.Working:
-                        m_isWorking = true;
-                        m_earningLabel.color = Color.green;
-                        break;
-                    case WorkingState.NotWorking:
-                        m_isWorking = false;
-                        m_earningLabel.color = Color.red;
-                        break;
-                }
+                m_moneyEarned += m_salary;
+                m_earningCounter.SetText(m_moneyEarned.ToString(fmt));
             }
 
             if (e.promotion)
             {
-                m_salary = e.newSalary;
-                m_salaryPerSecond = e.newSalary / 60;
-                m_salaryInfo.SetText($"${m_salary}/min");
+                m_salary += m_salary * 0.5f;
+                m_salaryInfo.SetText($"${m_salary}/click");
+                EventBus<JobDialogueEvent>.Raise(new JobDialogueEvent() {
+                    dialogue = "Nice points!!!\nHave a raise!!!",
+                    dialogueDuration = 5
+                });
             }
         }
 
@@ -118,37 +104,42 @@ namespace lvl0
             {
                 case Context.Inside:
                     m_jobCanvasGroup.alpha = 1f;
-                    EventBus<JobEvent>.Raise(new JobEvent()
-                    {
-                        workingStateChange = true,
-                        workingState = WorkingState.Working,
-                    });
+                    m_jobCanvasGroup.interactable = true;
+                    m_jobCanvasGroup.blocksRaycasts = true;
+                    m_workButtonCanvasGroup.alpha = 1f;
+                    m_workButtonCanvasGroup.interactable = true;
+                    m_workButtonCanvasGroup.blocksRaycasts = true;
+                    m_earningLabel.color = Color.green;
                     break;
                 case Context.Outside:
                     m_jobCanvasGroup.alpha = 1f;
-                    EventBus<JobEvent>.Raise(new JobEvent()
-                    {
-                        workingStateChange = true,
-                        workingState = WorkingState.NotWorking,
-                    });
+                    m_jobCanvasGroup.interactable = true;
+                    m_jobCanvasGroup.blocksRaycasts = true;
+                    m_workButtonCanvasGroup.alpha = 0f;
+                    m_workButtonCanvasGroup.interactable = false;
+                    m_workButtonCanvasGroup.blocksRaycasts = false;
+                    m_earningLabel.color = Color.red;
                     break;
                 case Context.Shop:
-                    m_jobCanvasGroup.alpha = 1f;
-                    EventBus<JobEvent>.Raise(new JobEvent()
-                    {
-                        workingStateChange = false,
-                        workingState = WorkingState.NotWorking
-                    });
+                    m_jobCanvasGroup.alpha = 0f;
+                    m_jobCanvasGroup.interactable = false;
+                    m_jobCanvasGroup.blocksRaycasts = false;
+                    m_earningLabel.color = Color.red;
                     break;
                 case Context.Dead:
                     m_jobCanvasGroup.alpha = 0f;
-                    EventBus<JobEvent>.Raise(new JobEvent()
-                    {
-                        workingStateChange = false,
-                        workingState = WorkingState.NotWorking
-                    });
+                    m_jobCanvasGroup.interactable = false;
+                    m_jobCanvasGroup.blocksRaycasts = false;
                     break;
             }
+        }
+
+        public void OnWorkButtonClicked()
+        {
+            EventBus<JobEvent>.Raise(new JobEvent()
+            {
+                payEvent = true
+            });
         }
     }
 }

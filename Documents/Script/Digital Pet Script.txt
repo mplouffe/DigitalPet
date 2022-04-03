@@ -1,0 +1,6 @@
+Digital Pet Script
+
+Adoption Sequence
+0 - A digital creature is about to be created
+1 - Behold! The miracle of creation!!!
+2 - new DigitalCreature();

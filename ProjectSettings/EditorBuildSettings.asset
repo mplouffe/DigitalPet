@@ -7,5 +7,17 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/0_TitleScreen.unity
+    guid: 1b4bbd3e2bead1e409e855d4d1bed05b
+  - enabled: 1
+    path: Assets/Scenes/1_AdoptionScreen.unity
+    guid: 5bf0a6a0f406a7947b8168924b1ddc7e
+  - enabled: 1
+    path: Assets/Scenes/2_GameScreen.unity
+    guid: 0029e50a6a40352489eff107820bf65c
+  - enabled: 1
+    path: Assets/Scenes/3_DeathScreen.unity
+    guid: ac5b0a2e374c26f40a0e4aa1fff23cf4
+  - enabled: 1
+    path: Assets/Scenes/4_GameOverScreen.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

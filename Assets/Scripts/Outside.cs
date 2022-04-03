@@ -100,32 +100,17 @@ namespace lvl0
                     {
                         newContext = Context.Outside
                     });
-                    EventBus<JobEvent>.Raise(new JobEvent
-                    {
-                        workingStateChange = true,
-                        workingState = WorkingState.NotWorking,
-                    });
                     break;
                 case Context.Outside:
                     EventBus<ContextChangedEvent>.Raise(new ContextChangedEvent
                     {
                         newContext = Context.Inside
                     });
-                    EventBus<JobEvent>.Raise(new JobEvent
-                    {
-                        workingStateChange = true,
-                        workingState = WorkingState.Working,
-                    });
                     break;
                 case Context.Shop:
                     EventBus<ContextChangedEvent>.Raise(new ContextChangedEvent
                     {
                         newContext = Context.Inside
-                    });
-                    EventBus<JobEvent>.Raise(new JobEvent
-                    {
-                        workingStateChange = true,
-                        workingState = WorkingState.Working,
                     });
                     break;
             }

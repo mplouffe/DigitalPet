@@ -10,8 +10,6 @@ namespace lvl0
         public bool requestOn;
     }
 
-    public struct NextClickedEvent : IEvent { }
-
     public class NextButton : MonoBehaviour, IEventReceiver<NextButtonEvent>
     {
 
@@ -23,15 +21,15 @@ namespace lvl0
             EventBus.Register(this);
         }
 
+        private void OnDestroy()
+        {
+            EventBus.UnRegister(this);
+        }
+
         void Awake()
         {
             m_canvasGroup.alpha = 0f;
             m_canvasGroup.interactable = false;
-        }
-
-        private void OnDestroy()
-        {
-            EventBus.UnRegister(this);
         }
 
         public void OnEvent(NextButtonEvent e)
@@ -46,12 +44,6 @@ namespace lvl0
                 m_canvasGroup.alpha = 0f;
                 m_canvasGroup.interactable = false;
             }
-        }
-
-        public void OnClickEvent()
-        {
-            EventBus<NextClickedEvent>.Raise(new NextClickedEvent());
-            Debug.Log("Santiy Check");
         }
     }
 }

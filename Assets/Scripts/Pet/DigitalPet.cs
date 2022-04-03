@@ -58,6 +58,8 @@ namespace lvl0
 
         private Context m_currentContext = Context.Inside;
 
+        private int m_petLevel = 1;
+
         void Start()
         {
             EventBus.Register(this);
@@ -188,7 +190,13 @@ namespace lvl0
                     {
                         // Game over here
                         m_isBreathing = false;
-
+                        GameManagerSystem.Instance.petLevel = m_petLevel;
+                        EventBus<ContextChangedEvent>.Raise(new ContextChangedEvent()
+                        {
+                            newContext = Context.Dead
+                        });
+                        var coroutine = DeathPause();
+                        StartCoroutine(coroutine);
                     }
                     else
                     {
@@ -248,6 +256,15 @@ namespace lvl0
         public void OnEvent(ContextChangedEvent e)
         {
             m_currentContext = e.newContext;
+        }
+
+        private IEnumerator DeathPause()
+        {
+            yield return new WaitForSeconds(2.0f);
+            EventBus<SceneChangeEvent>.Raise(new SceneChangeEvent()
+            {
+                nextScene = Scene.Death
+            });
         }
     }
 }

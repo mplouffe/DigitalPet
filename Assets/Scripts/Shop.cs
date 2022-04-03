@@ -48,11 +48,6 @@ namespace lvl0
             {
                 newContext = Context.Shop
             });
-            EventBus<JobEvent>.Raise(new JobEvent
-            {
-                workingStateChange = true,
-                workingState = WorkingState.NotWorking,
-            });
         }
     }
 }

@@ -818,6 +818,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8631731204830026724}
   - component: {fileID: 6953792274190572721}
+  - component: {fileID: 424587075472058484}
   m_Layer: 5
   m_Name: JobHUD
   m_TagString: Untagged
@@ -863,10 +864,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed5f14f0237886e45a22f96f6f27f36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_jobCanvasGroup: {fileID: 424587075472058484}
   m_payDayCounter: {fileID: 6372563504027404560}
   m_earningCounter: {fileID: 5945646243433214814}
   m_earningLabel: {fileID: 8849955470018786393}
   m_salaryInfo: {fileID: 542258313849562169}
+--- !u!225 &424587075472058484
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7306169593499219138}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7310461629601214470
 GameObject:
   m_ObjectHideFlags: 0

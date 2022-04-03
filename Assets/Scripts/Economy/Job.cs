@@ -19,8 +19,10 @@ namespace lvl0
         public int newSalary;
     }
 
-    public class Job : MonoBehaviour, IEventReceiver<JobEvent>
+    public class Job : MonoBehaviour, IEventReceiver<JobEvent>, IEventReceiver<ContextChangedEvent>
     {
+        [SerializeField]
+        private CanvasGroup m_jobCanvasGroup;
 
         [SerializeField]
         private TextMeshProUGUI m_payDayCounter;
@@ -107,6 +109,45 @@ namespace lvl0
                 m_salary = e.newSalary;
                 m_salaryPerSecond = e.newSalary / 60;
                 m_salaryInfo.SetText($"${m_salary}/min");
+            }
+        }
+
+        public void OnEvent(ContextChangedEvent e)
+        {
+            switch (e.newContext)
+            {
+                case Context.Inside:
+                    m_jobCanvasGroup.alpha = 1f;
+                    EventBus<JobEvent>.Raise(new JobEvent()
+                    {
+                        workingStateChange = true,
+                        workingState = WorkingState.Working,
+                    });
+                    break;
+                case Context.Outside:
+                    m_jobCanvasGroup.alpha = 1f;
+                    EventBus<JobEvent>.Raise(new JobEvent()
+                    {
+                        workingStateChange = true,
+                        workingState = WorkingState.NotWorking,
+                    });
+                    break;
+                case Context.Shop:
+                    m_jobCanvasGroup.alpha = 1f;
+                    EventBus<JobEvent>.Raise(new JobEvent()
+                    {
+                        workingStateChange = false,
+                        workingState = WorkingState.NotWorking
+                    });
+                    break;
+                case Context.Dead:
+                    m_jobCanvasGroup.alpha = 0f;
+                    EventBus<JobEvent>.Raise(new JobEvent()
+                    {
+                        workingStateChange = false,
+                        workingState = WorkingState.NotWorking
+                    });
+                    break;
             }
         }
     }

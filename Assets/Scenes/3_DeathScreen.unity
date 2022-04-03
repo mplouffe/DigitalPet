@@ -475,13 +475,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 838890800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc1b986da64164847ae0ee88ff160d2c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3454d1f9bb591054ba7bbfaa1bdb35fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_texts:
-  - A digital creature is about to be created
-  - Behold! The miracle of creation!!!
-  - new DigitalCreature();
+  - Your pet has passed away...
+  - I hope you enjoyed your brief time together.
+  - 'This is what they said about their life:'
+  - '[Placeholder]'
+  - '[Placeholder]'
 --- !u!1 &1403058071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1196,8 +1198,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 838890804}
-        m_TargetAssemblyTypeName: lvl0.AdoptionStarter, Assembly-CSharp
-        m_MethodName: OnAdoptionTextCloseClicked
+        m_TargetAssemblyTypeName: lvl0.DeathStarter, Assembly-CSharp
+        m_MethodName: OnDeathTextCloseClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

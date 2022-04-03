@@ -34,9 +34,9 @@ namespace lvl0
         [SerializeField]
         private TextMeshProUGUI m_salaryInfo;
 
-        private bool m_isWorking = false;
-        private int m_salary = 0;
-        private float m_salaryPerSecond = 0;
+        private bool m_isWorking = true;
+        private int m_salary = 60;
+        private float m_salaryPerSecond = 1;
 
         private float m_moneyEarned = 0;
         private float m_timeSinceLastPayDay = 0;
@@ -56,6 +56,8 @@ namespace lvl0
 
         void Awake()
         {
+            m_isWorking = true;
+            m_earningLabel.color = Color.green;
             m_salaryInfo.SetText($"${m_salary}/min");
         }
 
@@ -94,7 +96,7 @@ namespace lvl0
                         m_earningLabel.color = Color.green;
                         break;
                     case WorkingState.NotWorking:
-                        m_isWorking = true;
+                        m_isWorking = false;
                         m_earningLabel.color = Color.red;
                         break;
                 }

@@ -39,7 +39,6 @@ namespace lvl0
 
         public void OnEvent(PointsEvent e)
         {
-            Debug.Log("Sanity Check");
             m_points += e.pointsGained;
             m_pointsCounter.SetText(m_points.ToString(fmt));
 

@@ -29,14 +29,23 @@ namespace lvl0
         [SerializeField]
         private Sprite[] petSpriteSheet;
 
-        [SerializeField]
         private float m_lifeExpectancy = 120f;
+        private float m_totalInvestment = 0f;
+        private float m_totalTimeOutside = 0f;
+
+        [SerializeField]
+        private int m_firstEpochScore;
+        [SerializeField]
+        private int m_secondEpochScore;
+        [SerializeField]
+        private int m_thirdEpochScore;
 
         [SerializeField]
         private float m_fullness = 100f;
         private float m_hungerDecay = 0.05f;
         private float m_lastNotifiedOfHunger = 0;
         private float m_delayBetweenHungerNotifications = 45;
+        private float m_totalFeeding = 0f;
 
         [SerializeField]
         private float m_activity = 100f;
@@ -59,7 +68,9 @@ namespace lvl0
 
         private Context m_currentContext = Context.Inside;
 
-        private int m_petLevel = 1;
+        private int m_feedingLevelBaseRequirement = 100;
+        private int m_investmentLevelBaseRequirement = 50;
+        private int m_outsideBaseRequirement = 5;
 
         void Start()
         {
@@ -80,103 +91,97 @@ namespace lvl0
                 transform.localScale = new Vector3(transform.localScale.x, 1 + value, transform.localScale.z);
             }
 
-            switch (m_currentEpoch)
-            {
-                case DigitalPetEpoch.Infant:
-                case DigitalPetEpoch.Adolescent:
-                case DigitalPetEpoch.Teenage:
-                case DigitalPetEpoch.Adult:
-                    switch (m_currentContext)
-                    {
-                        case Context.Outside:
-                            m_age += Time.deltaTime;
-                            if (m_fullness > 0)
-                            {
-                                m_fullness = Mathf.Max(0, m_fullness - m_hungerDecay);
-                            }
+            if (m_currentEpoch != DigitalPetEpoch.Dead)
+            { 
+                switch (m_currentContext)
+                {
+                    case Context.Outside:
+                        m_age += Time.deltaTime;
+                        if (m_fullness > 0)
+                        {
+                            m_fullness = Mathf.Max(0, m_fullness - m_hungerDecay);
+                        }
 
-                            if (m_activity < 100)
-                            {
-                                m_activity = Mathf.Max(0, m_activity + m_outdoorsActivityBoost);
-                            }
+                        if (m_activity < 100)
+                        {
+                            m_activity = Mathf.Max(0, m_activity + m_outdoorsActivityBoost);
+                        }
 
-                            if (m_fullness < 40 && Time.time - m_lastNotifiedOfHunger > m_delayBetweenHungerNotifications)
+                        if (m_fullness < 40 && Time.time - m_lastNotifiedOfHunger > m_delayBetweenHungerNotifications)
+                        {
+                            EventBus<PetDialogueEvent>.Raise(new PetDialogueEvent()
                             {
-                                EventBus<PetDialogueEvent>.Raise(new PetDialogueEvent()
-                                {
-                                    dialogue = "I'm hungry...",
-                                    dialogueDuration = 15
-                                });
-                                m_lastNotifiedOfHunger = Time.time;
-                            }
+                                dialogue = "I'm hungry...",
+                                dialogueDuration = 15
+                            });
+                            m_lastNotifiedOfHunger = Time.time;
+                        }
 
-                            if (m_activity >= 90 && Time.time - m_lastNotifiedOfBoredom > m_delayBetweenBoredomNotifications)
+                        if (m_activity >= 90 && Time.time - m_lastNotifiedOfBoredom > m_delayBetweenBoredomNotifications)
+                        {
+                            EventBus<PetDialogueEvent>.Raise(new PetDialogueEvent()
                             {
-                                EventBus<PetDialogueEvent>.Raise(new PetDialogueEvent()
-                                {
-                                    dialogue = "I'm feeling great.",
-                                    dialogueDuration = 15
-                                });
-                                m_lastNotifiedOfBoredom = Time.time;
-                            }
+                                dialogue = "I'm feeling great.",
+                                dialogueDuration = 15
+                            });
+                            m_lastNotifiedOfBoredom = Time.time;
+                        }
 
-                            if (m_age - m_lifeExpectancy > 0)
+                        if (m_age - m_lifeExpectancy > 0)
+                        {
+                            EventBus<DigitalPetEvent>.Raise(new DigitalPetEvent()
                             {
-                                EventBus<DigitalPetEvent>.Raise(new DigitalPetEvent()
-                                {
-                                    evolve = true,
-                                    feedingAmount = 0,
-                                });
-                            }
-                            break;
-                        case Context.Inside:
-                            m_age += Time.deltaTime;
-                            if (m_fullness > 0)
-                            {
-                                m_fullness = Mathf.Max(0, m_fullness - m_hungerDecay);
-                            }
+                                evolve = true,
+                                feedingAmount = 0,
+                            });
+                        }
+                        break;
+                    case Context.Inside:
+                        m_age += Time.deltaTime;
+                        if (m_fullness > 0)
+                        {
+                            m_fullness = Mathf.Max(0, m_fullness - m_hungerDecay);
+                        }
 
-                            if (m_activity > 0)
-                            {
-                                m_activity = Mathf.Max(0, m_activity - m_activityDecay);
-                            }
+                        if (m_activity > 0)
+                        {
+                            m_activity = Mathf.Max(0, m_activity - m_activityDecay);
+                        }
 
-                            if (m_fullness < 40 && Time.time - m_lastNotifiedOfHunger > m_delayBetweenHungerNotifications)
+                        if (m_fullness < 40 && Time.time - m_lastNotifiedOfHunger > m_delayBetweenHungerNotifications)
+                        {
+                            EventBus<PetDialogueEvent>.Raise(new PetDialogueEvent()
                             {
-                                EventBus<PetDialogueEvent>.Raise(new PetDialogueEvent()
-                                {
-                                    dialogue = "I'm hungry...",
-                                    dialogueDuration = 15
-                                });
-                                m_lastNotifiedOfHunger = Time.time;
-                            }
+                                dialogue = "I'm hungry...",
+                                dialogueDuration = 15
+                            });
+                            m_lastNotifiedOfHunger = Time.time;
+                        }
 
-                            if (m_activity < 40 && Time.time - m_lastNotifiedOfBoredom > m_delayBetweenBoredomNotifications)
+                        if (m_activity < 40 && Time.time - m_lastNotifiedOfBoredom > m_delayBetweenBoredomNotifications)
+                        {
+                            EventBus<PetDialogueEvent>.Raise(new PetDialogueEvent()
                             {
-                                EventBus<PetDialogueEvent>.Raise(new PetDialogueEvent()
-                                {
-                                    dialogue = "Can we go outside?",
-                                    dialogueDuration = 15
-                                });
-                                m_lastNotifiedOfBoredom = Time.time;
-                            }
+                                dialogue = "Can we go outside?",
+                                dialogueDuration = 15
+                            });
+                            m_lastNotifiedOfBoredom = Time.time;
+                        }
 
-                            if (m_age - m_lifeExpectancy > 0)
+                        if (m_age - m_lifeExpectancy > 0)
+                        {
+                            EventBus<DigitalPetEvent>.Raise(new DigitalPetEvent()
                             {
-                                EventBus<DigitalPetEvent>.Raise(new DigitalPetEvent()
-                                {
-                                    evolve = true,
-                                    feedingAmount = 0,
-                                });
-                            }
-                            break;
-                        case Context.Shop:
-                            break;
-                    }
-                    break;
+                                evolve = true,
+                                feedingAmount = 0,
+                            });
+                        }
+                        break;
+                    case Context.Shop:
+                        break;
+                }
+                    
             }
-
-
 
         }
 
@@ -191,72 +196,171 @@ namespace lvl0
                     {
                         // Game over here
                         m_isBreathing = false;
-                        GameManagerSystem.Instance.petLevel = m_petLevel;
+                        EventBus<DeadMessageEvent>.Raise(new DeadMessageEvent());
+                        GameManagerSystem.Instance.petLevel = m_firstEpochScore + m_secondEpochScore + m_thirdEpochScore;
                         EventBus<ContextChangedEvent>.Raise(new ContextChangedEvent()
                         {
                             newContext = Context.Dead
                         });
+                        petSprite.sprite = petSpriteSheet[10];
                         var coroutine = DeathPause();
                         StartCoroutine(coroutine);
                     }
                     else
                     {
-                        var lifeExpectancyModifier = 0f;
-                        if (m_activity >= 80)
+                        EventBus<EvolveMessageEvent>.Raise(new EvolveMessageEvent());
+                        // This is bad but I'm running out of time...
+                        bool evolvedWell = false;
+                        switch (m_currentEpoch)
                         {
-                            lifeExpectancyModifier += 15;
-                        }
-                        else if (m_activity >= 60)
-                        {
-                            lifeExpectancyModifier += 7;
-                        }
-                        else if (m_activity >= 40)
-                        {
-                            lifeExpectancyModifier += 0;
-                        }
-                        else if (m_activity >= 20)
-                        {
-                            lifeExpectancyModifier -= 7;
-                        }
-                        else
-                        {
-                            lifeExpectancyModifier -= 15;
+                            case DigitalPetEpoch.Adolescent:
+                                if (
+                                    m_totalFeeding > m_feedingLevelBaseRequirement &&
+                                    m_totalInvestment > m_investmentLevelBaseRequirement &&
+                                    m_totalTimeOutside > m_outsideBaseRequirement)
+                                {
+                                    m_firstEpochScore = 1;
+                                    evolvedWell = true;
+                                }
+                                else
+                                {
+                                    m_firstEpochScore = 0;
+                                }
+                                petSprite.sprite = petSpriteSheet[1];
+                                break;
+                            case DigitalPetEpoch.Teenage:
+                                if (m_firstEpochScore == 1)
+                                {
+                                    if (
+                                        m_totalFeeding > m_feedingLevelBaseRequirement * 2 &&
+                                        m_totalInvestment > m_investmentLevelBaseRequirement * 2 &&
+                                        m_totalTimeOutside > m_outsideBaseRequirement * 2)
+                                    {
+                                        m_secondEpochScore = 2;
+                                        evolvedWell = true;
+                                    }
+                                    else
+                                    {
+                                        m_secondEpochScore = 1;
+                                    }
+                                    petSprite.sprite = petSpriteSheet[2];
+                                }
+                                else
+                                {
+                                    if (
+                                        m_totalFeeding > m_feedingLevelBaseRequirement &&
+                                        m_totalInvestment > m_investmentLevelBaseRequirement &&
+                                        m_totalTimeOutside > m_outsideBaseRequirement)
+                                    {
+                                        m_secondEpochScore = 1;
+                                        evolvedWell = true;
+                                    }
+                                    else
+                                    {
+                                        m_secondEpochScore = 0;
+                                    }
+                                    petSprite.sprite = petSpriteSheet[3];
+                                }
+                                break;
+                            case DigitalPetEpoch.Adult:
+                                if (m_firstEpochScore + m_secondEpochScore == 3)
+                                {
+                                    if (
+                                        m_totalFeeding > m_feedingLevelBaseRequirement * 4 &&
+                                        m_totalInvestment > m_investmentLevelBaseRequirement * 4 &&
+                                        m_totalTimeOutside > m_outsideBaseRequirement * 4)
+                                    {
+                                        m_thirdEpochScore = 3;
+                                        evolvedWell = true;
+                                        petSprite.sprite = petSpriteSheet[4];
+                                    }
+                                    else
+                                    {
+                                        m_thirdEpochScore = 2;
+                                        petSprite.sprite = petSpriteSheet[5];
+                                    }
+                                }
+                                else if (m_firstEpochScore + m_secondEpochScore == 2)
+                                {
+                                    if (
+                                        m_totalFeeding > m_feedingLevelBaseRequirement * 3 &&
+                                        m_totalInvestment > m_investmentLevelBaseRequirement * 3 &&
+                                        m_totalTimeOutside > m_outsideBaseRequirement * 3)
+                                    {
+                                        m_thirdEpochScore = 1;
+                                        evolvedWell = true;
+                                        petSprite.sprite = petSpriteSheet[5];
+                                    }
+                                    else
+                                    {
+                                        m_thirdEpochScore = 0;
+                                        petSprite.sprite = petSpriteSheet[6];
+                                    }
+                                }
+                                else if (m_firstEpochScore + m_secondEpochScore == 1)
+                                {
+                                    if (
+                                        m_totalFeeding > m_feedingLevelBaseRequirement * 2 &&
+                                        m_totalInvestment > m_investmentLevelBaseRequirement * 2 &&
+                                        m_totalTimeOutside > m_outsideBaseRequirement * 2)
+                                    {
+                                        m_thirdEpochScore = 1;
+                                        evolvedWell = true;
+                                        petSprite.sprite = petSpriteSheet[7];
+                                    }
+                                    else
+                                    {
+                                        m_thirdEpochScore = 0;
+                                        petSprite.sprite = petSpriteSheet[8];
+                                    }
+                                }
+                                else
+                                {
+                                    if (
+                                        m_totalFeeding > m_feedingLevelBaseRequirement &&
+                                        m_totalInvestment > m_investmentLevelBaseRequirement &&
+                                        m_totalTimeOutside > m_outsideBaseRequirement)
+                                    {
+                                        evolvedWell = true;
+                                        m_thirdEpochScore = 1;
+                                        petSprite.sprite = petSpriteSheet[8];
+                                    }
+                                    else
+                                    {
+                                        m_thirdEpochScore = 0;
+                                        petSprite.sprite = petSpriteSheet[9];
+                                    }
+                                }
+                                break;
                         }
 
-                        if (m_fullness >= 80)
-                        {
-                            lifeExpectancyModifier += 15;
-                        }
-                        else if (m_fullness >= 60)
-                        {
-                            lifeExpectancyModifier += 7;
-                        }
-                        else if (m_fullness >= 40)
-                        {
-                            lifeExpectancyModifier += 0;
-                        }
-                        else if (m_fullness >= 20)
-                        {
-                            lifeExpectancyModifier -= 7;
-                        }
-                        else
-                        {
-                            lifeExpectancyModifier -= 15;
-                        }
-
+                        var lifeExpectancyModifier = evolvedWell ? 3f : -3f;
                         m_lifeExpectancy = m_age + m_lifeExpectancy + lifeExpectancyModifier;
                     }
 
-                    petSprite.sprite = petSpriteSheet[(int)m_currentEpoch];
+
+                    
                 }
             }
 
             m_fullness += e.feedingAmount;
+            m_totalFeeding += e.feedingAmount;
             m_lifeExpectancy += e.healthInvestment;
+            m_totalInvestment += e.healthInvestment;
         }
 
         public void OnEvent(ContextChangedEvent e)
         {
+            switch (e.newContext)
+            {
+                case Context.Inside:
+                case Context.Outside:
+                    petSprite.color = new Color(1f, 1f, 1f, 1f);
+                    break;
+                case Context.Shop:
+                    petSprite.color = new Color(1f, 1f, 1f, 1f);
+                    break;
+            }
             m_currentContext = e.newContext;
         }
 

@@ -23,7 +23,7 @@ namespace lvl0
         private TextMeshProUGUI m_petHealthCostLabel;
 
         private int m_pointsCost = 10;
-        private int m_petHealthCost = 100;
+        private int m_petHealthCost = 50;
 
         private const string fmt = "000";
 

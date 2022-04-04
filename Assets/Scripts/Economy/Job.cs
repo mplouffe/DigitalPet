@@ -38,12 +38,14 @@ namespace lvl0
         [SerializeField]
         private CanvasGroup m_workButtonCanvasGroup;
 
-        private float m_salary = 0.25f;
+        private float m_salary = 0.5f;
         private float m_moneyEarned = 0;
         private float m_timeSinceLastPayDay = 0;
 
         private const int k_payInterval = 20;
-        private const string fmt = "000.00";
+        
+        private const string fmtEarning = "000.00";
+        private const string fmtPayday = "000000";
 
         void Start()
         {
@@ -58,6 +60,7 @@ namespace lvl0
         void Awake()
         {
             m_earningLabel.color = Color.green;
+            m_earningCounter.SetText(0.ToString(fmtEarning));
             m_salaryInfo.SetText($"${m_salary}/click");
         }
 
@@ -73,10 +76,11 @@ namespace lvl0
                     transactionAmount = (int)m_moneyEarned
                 });
                 m_moneyEarned = 0;
+                m_earningCounter.SetText(0.ToString(fmtEarning));
                 m_timeSinceLastPayDay = 0;
             }
 
-            m_payDayCounter.SetText(((int)(k_payInterval * 100 - (m_timeSinceLastPayDay * 100))).ToString(fmt));
+            m_payDayCounter.SetText(((int)(k_payInterval * 100 - (m_timeSinceLastPayDay * 100))).ToString(fmtPayday));
         }
 
         public void OnEvent(JobEvent e)
@@ -84,7 +88,7 @@ namespace lvl0
             if (e.payEvent)
             {
                 m_moneyEarned += m_salary;
-                m_earningCounter.SetText(m_moneyEarned.ToString(fmt));
+                m_earningCounter.SetText(m_moneyEarned.ToString(fmtEarning));
             }
 
             if (e.promotion)
@@ -93,7 +97,7 @@ namespace lvl0
                 m_salaryInfo.SetText($"${m_salary}/click");
                 EventBus<JobDialogueEvent>.Raise(new JobDialogueEvent() {
                     dialogue = "Nice points!!!\nHave a raise!!!",
-                    dialogueDuration = 5
+                    dialogueDuration = 10
                 });
             }
         }

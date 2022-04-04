@@ -11,7 +11,7 @@ namespace lvl0
         public float dialogueDuration;
     }
 
-    public class PetDialogueWindow : MonoBehaviour, IEventReceiver<PetDialogueEvent>
+    public class PetDialogueWindow : MonoBehaviour, IEventReceiver<PetDialogueEvent>, IEventReceiver<ContextChangedEvent>
     {
         [SerializeField]
         private TextMeshProUGUI m_petDialogueWindowText;
@@ -62,6 +62,19 @@ namespace lvl0
             if (m_isShowingDialogue)
             {
                 if (Time.time - m_dialogueWindowStart > m_dialogueWindowDuration)
+                {
+                    m_petDialogueCanvasGroup.alpha = 0f;
+                    m_petDialogueCanvasGroup.interactable = false;
+                    m_isShowingDialogue = false;
+                }
+            }
+        }
+
+        public void OnEvent(ContextChangedEvent e)
+        {
+            if (m_isShowingDialogue)
+            {
+                if (e.newContext == Context.Outside)
                 {
                     m_petDialogueCanvasGroup.alpha = 0f;
                     m_petDialogueCanvasGroup.interactable = false;

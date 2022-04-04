@@ -26,13 +26,14 @@ namespace lvl0
 
         public void OnAdoptionTextCloseClicked()
         {
+            EventBus<CreateMessageEvent>.Raise(new CreateMessageEvent());
             var coroutine = WaitToCloseAdoption();
             StartCoroutine(coroutine);
         }
 
         private IEnumerator WaitToCloseAdoption()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
             EventBus<SceneChangeEvent>.Raise(new SceneChangeEvent()
             {
                 nextScene = Scene.Game

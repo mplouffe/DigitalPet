@@ -29,6 +29,7 @@ namespace lvl0
         [SerializeField]
         private Sprite[] petSpriteSheet;
 
+        [SerializeField]
         private float m_lifeExpectancy = 120f;
         private float m_totalInvestment = 0f;
         private float m_totalTimeOutside = 0f;

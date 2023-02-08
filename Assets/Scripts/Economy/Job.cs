@@ -38,7 +38,7 @@ namespace lvl0
         private float m_salary = 0.5f;
         private float m_moneyEarned = 0;
         private float m_timeSinceLastPayDay = 0;
-        private float m_stateModifier = 0;
+        private float m_stateModifier = 1;
 
         private const int k_payInterval = 20;
         

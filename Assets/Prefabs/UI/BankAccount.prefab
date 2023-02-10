@@ -32,11 +32,11 @@ RectTransform:
   m_Father: {fileID: 8147208401349472417}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &7915731540460286412
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 7115612447303295735}
   - component: {fileID: 6078046323338631195}
   m_Layer: 5
-  m_Name: BankLevel
+  m_Name: BankAmount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,11 +166,11 @@ RectTransform:
   m_Father: {fileID: 8147208401349472417}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 167.58, y: -3.3}
-  m_SizeDelta: {x: -42.2113, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: 0}
+  m_SizeDelta: {x: 180, y: 50}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &7115612447303295735
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -277,6 +277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8147208401349472417}
+  - component: {fileID: 3565157332166155301}
   m_Layer: 5
   m_Name: BankAccount
   m_TagString: Untagged
@@ -305,3 +306,15 @@ RectTransform:
   m_AnchoredPosition: {x: 49, y: -34}
   m_SizeDelta: {x: 188.6906, y: 50}
   m_Pivot: {x: 0, y: 1}
+--- !u!225 &3565157332166155301
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7187210253070032775}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

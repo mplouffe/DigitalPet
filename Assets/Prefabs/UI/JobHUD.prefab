@@ -817,7 +817,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8631731204830026724}
-  - component: {fileID: 6953792274190572721}
   - component: {fileID: 424587075472058484}
   m_Layer: 5
   m_Name: JobHUD
@@ -852,24 +851,6 @@ RectTransform:
   m_AnchoredPosition: {x: 70, y: 200}
   m_SizeDelta: {x: 400.6057, y: 176.9889}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &6953792274190572721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7306169593499219138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed5f14f0237886e45a22f96f6f27f36c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_jobCanvasGroup: {fileID: 424587075472058484}
-  m_payDayCounter: {fileID: 6372563504027404560}
-  m_earningCounter: {fileID: 5945646243433214814}
-  m_earningLabel: {fileID: 8849955470018786393}
-  m_salaryInfo: {fileID: 542258313849562169}
-  m_workButtonCanvasGroup: {fileID: 0}
 --- !u!225 &424587075472058484
 CanvasGroup:
   m_ObjectHideFlags: 0

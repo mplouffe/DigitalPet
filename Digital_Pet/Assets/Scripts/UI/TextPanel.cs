@@ -1,11 +1,11 @@
-namespace lvl0
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using TMPro;
-    using UnityEngine;
-    using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
+namespace lvl_0
+{
     public struct TextPanelEvent : IEvent
     {
         public string textToDisplay;
@@ -25,17 +25,17 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<TextPanelEvent>.Register(this);
+        }
+
+        private void OnDestroy()
+        {
+            EventBus<TextPanelEvent>.UnRegister(this);
         }
 
         void Awake()
         {
             m_canvasGroup.alpha = 0f;
-        }
-
-        private void OnDestroy()
-        {
-            EventBus.UnRegister(this);
         }
 
         public void OnEvent(TextPanelEvent e)

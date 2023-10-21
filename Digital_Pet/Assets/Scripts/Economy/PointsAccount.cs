@@ -1,16 +1,16 @@
-namespace lvl0
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using TMPro;
-    using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
+namespace lvl_0
+{
     public struct PointsEvent : IEvent
     {
         public int pointsGained;
     }
 
-    public class PointsAccount : MonoBehaviour, IEventReceiver<PointsEvent>, IEventReceiver<ContextChangedEvent>
+    public class PointsAccount : MonoBehaviour, IEventReceiver<PointsEvent>
     {
         [SerializeField]
         private CanvasGroup m_pointsAccountCanvasGroup;
@@ -29,12 +29,12 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<PointsEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<PointsEvent>.UnRegister(this);
         }
 
         public void OnEvent(PointsEvent e)
@@ -51,25 +51,5 @@ namespace lvl0
                 m_currentLevel++;
             }
         }
-
-        public void OnEvent(ContextChangedEvent e)
-        {
-            switch (e.newContext)
-            {
-                case Context.Inside:
-                    m_pointsAccountCanvasGroup.alpha = 1f;
-                    break;
-                case Context.Outside:
-                    m_pointsAccountCanvasGroup.alpha = 0f;
-                    break;
-                case Context.Shop:
-                    m_pointsAccountCanvasGroup.alpha = 1f;
-                    break;
-                case Context.Dead:
-                    m_pointsAccountCanvasGroup.alpha = 0f;
-                    break;
-            }
-        }
-
     }
 }

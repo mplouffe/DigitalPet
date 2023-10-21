@@ -1,10 +1,10 @@
-namespace lvl0
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using TMPro;
-    using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
+namespace lvl_0
+{
     public struct PetDialogueEvent : IEvent
     {
         public string dialogue;
@@ -25,12 +25,14 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<PetDialogueEvent>.Register(this);
+            EventBus<ContextChangedEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<PetDialogueEvent>.UnRegister(this);
+            EventBus<ContextChangedEvent>.UnRegister(this);
         }
 
         void Awake()
@@ -56,7 +58,6 @@ namespace lvl0
             m_isShowingDialogue = false;
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (m_isShowingDialogue)

@@ -1,10 +1,10 @@
-namespace lvl0
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
+namespace lvl_0
+{
     public struct NextButtonEvent : IEvent
     {
         public bool requestOn;
@@ -18,12 +18,12 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<NextButtonEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<NextButtonEvent>.UnRegister(this);
         }
 
         void Awake()

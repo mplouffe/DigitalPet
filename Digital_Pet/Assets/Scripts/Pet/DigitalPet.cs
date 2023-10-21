@@ -1,10 +1,10 @@
-namespace lvl0
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using Unity.Profiling;
-    using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Profiling;
+using UnityEngine;
 
+namespace lvl_0
+{
     public struct DigitalPetEvent : IEvent
     {
         public bool evolve;
@@ -75,12 +75,14 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<DigitalPetEvent>.Register(this);
+            EventBus<ContextChangedEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<DigitalPetEvent>.UnRegister(this);
+            EventBus<ContextChangedEvent>.UnRegister(this);
         }
 
         // Update is called once per frame

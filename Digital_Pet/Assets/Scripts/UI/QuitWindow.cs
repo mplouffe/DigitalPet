@@ -1,13 +1,11 @@
-namespace lvl0
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace lvl_0
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-
     public struct QuitWindowEvent : IEvent
-    {
-
-    }
+    { }
 
     public class QuitWindow : MonoBehaviour, IEventReceiver<QuitWindowEvent>
     {
@@ -18,12 +16,12 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<QuitWindowEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<QuitWindowEvent>.UnRegister(this);
         }
 
         void Awake()

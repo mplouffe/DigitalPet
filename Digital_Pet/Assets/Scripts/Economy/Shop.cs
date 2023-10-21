@@ -1,10 +1,10 @@
-namespace lvl0
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using TMPro;
-    using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
+namespace lvl_0
+{
     public class Shop : MonoBehaviour, IEventReceiver<ContextChangedEvent>
     {
         [SerializeField]
@@ -29,12 +29,12 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<ContextChangedEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<ContextChangedEvent>.UnRegister(this);
         }
 
         private void Awake()

@@ -1,10 +1,10 @@
-namespace lvl0
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using TMPro;
-    using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
+namespace lvl_0
+{
     public struct TextWindowEvent : IEvent
     {
         public string[] texts;
@@ -30,12 +30,12 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<TextWindowEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<TextWindowEvent>.UnRegister(this);
         }
 
         void Awake()

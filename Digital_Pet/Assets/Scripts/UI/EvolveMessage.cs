@@ -1,13 +1,11 @@
-namespace lvl0
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace lvl_0
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-
     public struct EvolveMessageEvent : IEvent
-    {
-
-    }
+    { }
 
     public class EvolveMessage : MonoBehaviour, IEventReceiver<EvolveMessageEvent>
     {
@@ -23,12 +21,12 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<EvolveMessageEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<EvolveMessageEvent>.UnRegister(this);
         }
 
         public void OnEvent(EvolveMessageEvent e)
@@ -38,7 +36,6 @@ namespace lvl0
             m_evolveSignSprite.color = new Color(1f, 1f, 1f, 1f);
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (m_isOnScreen)

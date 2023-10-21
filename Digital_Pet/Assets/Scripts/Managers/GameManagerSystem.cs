@@ -1,10 +1,12 @@
-namespace lvl0
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-    using UnityEngine.SceneManagement;
+#define GAME_MANAGER_SYSTEM
 
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+namespace lvl_0
+{
     public enum Scene
     {
         Title,
@@ -19,14 +21,10 @@ namespace lvl0
         public Scene nextScene;
     }
 
-    public class GameManagerSystem : MonoBehaviour, IEventReceiver<SceneChangeEvent>
+    public class GameManagerSystem : SingletonBase<GameManagerSystem>, IEventReceiver<SceneChangeEvent>
     {
 
         private Scene m_currentScene;
-
-        private static GameManagerSystem m_instance;
-
-        public static GameManagerSystem Instance { get { return m_instance; } }
 
         public int petLevel;
 
@@ -67,18 +65,9 @@ namespace lvl0
 
         private void Awake()
         {
-            if (m_instance != null && m_instance != this)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                m_currentScene = Scene.Title;
-                DontDestroyOnLoad(this);
-                m_instance = this;
-                EventBus.Register(this);
-            }
-
+            m_currentScene = Scene.Title;
+            EventBus<SceneChangeEvent>.Register(this);
+            DontDestroyOnLoad(gameObject);
         }
 
         private void OnDestroy()
@@ -86,7 +75,7 @@ namespace lvl0
             GameObject[] objs = GameObject.FindGameObjectsWithTag("GameManager");
             if (objs.Length == 0)
             {
-                EventBus.UnRegister(this);
+                EventBus<SceneChangeEvent>.UnRegister(this);
             }
         }
 

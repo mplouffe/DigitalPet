@@ -1,13 +1,11 @@
-namespace lvl0
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace lvl_0
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-
     public struct DeadMessageEvent : IEvent
-    {
-
-    }
+    { }
 
     public class DeadMessage : MonoBehaviour, IEventReceiver<DeadMessageEvent>
     {
@@ -20,12 +18,12 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<DeadMessageEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<DeadMessageEvent>.UnRegister(this);
         }
 
         public void OnEvent(DeadMessageEvent e)

@@ -1,10 +1,10 @@
-namespace lvl0
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using TMPro;
-    using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
+namespace lvl_0
+{
     public enum WorkingState
     {
         Working,
@@ -45,14 +45,16 @@ namespace lvl0
         private const string fmtEarning = "000.00";
         private const string fmtPayday = "000000";
 
-        void Start()
+        void OnEnable()
         {
-            EventBus.Register(this);
+            EventBus<JobEvent>.Register(this);
+            EventBus<ContextChangedEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<JobEvent>.UnRegister(this);
+            EventBus<ContextChangedEvent>.UnRegister(this);
         }
 
         void Awake()
@@ -62,7 +64,6 @@ namespace lvl0
             m_salaryInfo.SetText($"${m_salary}/sec");
         }
 
-        // Update is called once per frame
         void FixedUpdate()
         {
             m_timeSinceLastPayDay += Time.deltaTime;
@@ -129,8 +130,6 @@ namespace lvl0
                     m_jobCanvasGroup.blocksRaycasts = false;
                     break;
             }
-        }
-
-        
+        }       
     }
 }

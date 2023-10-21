@@ -1,10 +1,10 @@
-namespace lvl0
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using TMPro;
-    using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
+namespace lvl_0
+{
     public enum TransactionType
     {
         Deposit,
@@ -33,12 +33,14 @@ namespace lvl0
 
         void Start()
         {
-            EventBus.Register(this);
+            EventBus<BankAccountEvent>.Register(this);
+            EventBus<ContextChangedEvent>.Register(this);
         }
 
         private void OnDestroy()
         {
-            EventBus.UnRegister(this);
+            EventBus<BankAccountEvent>.UnRegister(this);
+            EventBus<ContextChangedEvent>.UnRegister(this);
         }
 
         public void OnEvent(BankAccountEvent e)
@@ -92,7 +94,6 @@ namespace lvl0
                     }
                     break;
             }
-
         }
 
         void Awake()

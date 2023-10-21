@@ -1,9 +1,9 @@
-namespace lvl0
-{
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
+namespace lvl_0
+{
     public class DeathStarter : MonoBehaviour
     {
         [SerializeField]
